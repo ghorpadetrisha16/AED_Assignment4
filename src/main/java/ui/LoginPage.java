@@ -113,8 +113,8 @@ public class LoginPage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = this.jTextField1.getText().trim();
-        String password = this.jTextField1.getText().trim();
-if(username.equals("Trisha") && password.equals("1234"))
+        String password = this.jTextField2.getText().trim();
+if(username.equals("Trisha") && password.equals("****"))
 new LandingPage().setVisible(true);
 else JOptionPane.showMessageDialog(this, "Enter valid username and password");
     }//GEN-LAST:event_jButton1ActionPerformed
