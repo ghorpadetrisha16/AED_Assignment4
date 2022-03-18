@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -35,6 +34,7 @@ DefaultTableModel modelPerson;
 personArr = new ArrayList<Person>();
 patientArr = new ArrayList<Patient>();
 populatePersonArrayList();
+populatePatientArrayList();
 modelPerson = (DefaultTableModel) jTable2.getModel();
     }
 public void populatePersonArrayList() {
@@ -46,6 +46,27 @@ public void populatePersonArrayList() {
             while (!eof) {
                 try {
                     personArr.add((Person) ipfile.readObject());
+                } catch (EOFException eoe) {
+                    eof = true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+            }
+            ipfile.close();
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, ioe.getMessage());
+        }
+    }
+
+public void populatePatientArrayList() {
+        try {
+            FileInputStream file = new FileInputStream("Patient.dat");
+            ObjectInputStream ipfile = new ObjectInputStream(file);
+
+            boolean eof = false;
+            while (!eof) {
+                try {
+                    patientArr.add((Patient) ipfile.readObject());
                 } catch (EOFException eoe) {
                     eof = true;
                 } catch (Exception e) {
@@ -115,7 +136,9 @@ public void updatePersonFileToSetIsPatient() {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
+        setPreferredSize(new java.awt.Dimension(1139, 768));
 
         jLabel1.setText("Enter Patient Name : ");
 
@@ -145,9 +168,17 @@ public void updatePersonFileToSetIsPatient() {
 
             },
             new String [] {
-                "ID", "Name", "DOB", "SSN", "Passport", "Community Name", "City", "Mobile Number", "Emergency Contact Name", "Emergency Contact Number", "Gender", "Is patient?"
+                "Person ID", "Name", "DOB", "SSN", "Passport", "Community Name", "City", "Mobile Number", "Email", "Emergency Contact Name", "Emergency Contact Number", "Gender", "Is patient?"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton3.setText("Register Patient ");
@@ -246,20 +277,26 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
         int row = jTable2.getSelectedRow();
 int column = 0;//get personId of selected person 
 long personId = (long) jTable2.getValueAt(row, column);
+char isPatient = (char) jTable2.getValueAt(row, 12);
+if(isPatient != 'Y'){
 Date registrationDate = this.jDateChooser1.getDate();
 
-Patient p = new Patient(personId, patientArr.size()+1, registrationDate);
+Patient p = new Patient(patientArr.size()+1, personId, registrationDate);
 patientArr.add(p);
 savePatientFile();
 
 //updade person file
 for(int i=0;i < personArr.size();i++){
 Person person = personArr.get(i);
+if(person.getPersonId() == personId){
 person.setIsPatient('Y');
-personArr.add(person);
-personArr.remove(i);
+//personArr.add(person);
+//personArr.remove(i);
+
+}
 }
 updatePersonFileToSetIsPatient();
+}
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

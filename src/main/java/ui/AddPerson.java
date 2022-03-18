@@ -148,6 +148,8 @@ public void savePersonFile() {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
+        setPreferredSize(new java.awt.Dimension(1139, 768));
 
         jLabel1.setText("Name");
 
@@ -363,7 +365,9 @@ else jLabel12.setText("Photo");
     }//GEN-LAST:event_jComboBox3ItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+if(this.jTextField1.getText().equals("") || this.jTextField2.getText().equals("") || this.jTextField3.getText().equals("") || this.jTextField4.getText().equals("") || this.jTextField5.getText().equals("") || this.jTextField6.getText().equals("") || this.jTextField7.getText().equals("") || this.jComboBox1.getSelectedItem().equals("") || this.jComboBox2.getSelectedItem().equals("") || this.jComboBox3.getSelectedItem().equals("") || this.jDateChooser1.getDate().equals("")){
+JOptionPane.showMessageDialog(this, "Enter valid value for all parameters. Data should not be a blank value.");return;
+}       
     String name = this.jTextField1.getText().trim();
     String ssn = this.jTextField2.getText().trim();
 

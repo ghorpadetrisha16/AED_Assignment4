@@ -37,8 +37,10 @@ jTable2.setVisible(false);
 personArr =  new ArrayList<Person>();
 patientArr = new ArrayList<Patient>();
 historyReport = new ArrayList<PatientReport>();
+latestReport = new ArrayList<PatientReport>();
 modelPerson = (DefaultTableModel) jTable2.getModel();
 populatePersonArrayList();
+populatePatientArrayList();
     }
 
 public void savePatientHistoryReport() {
@@ -46,11 +48,11 @@ public void savePatientHistoryReport() {
             FileOutputStream file = new FileOutputStream("HistoryReport.dat");
             ObjectOutputStream otFile = new ObjectOutputStream(file);
             for (int i = 0; i < historyReport.size(); i++) {
-                otFile.writeObject(patientArr.get(i));
+                otFile.writeObject(historyReport.get(i));
             }
             otFile.close();
-            JOptionPane.showMessageDialog(null, "Data saved Successfully");
-            this.dispose();
+            //JOptionPane.showMessageDialog(null, "Data saved Successfully");
+            //this.dispose();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -61,11 +63,11 @@ public void savePatientLatestReport() {
             FileOutputStream file = new FileOutputStream("LatestReport.dat");
             ObjectOutputStream otFile = new ObjectOutputStream(file);
             for (int i = 0; i < latestReport.size(); i++) {
-                otFile.writeObject(patientArr.get(i));
+                otFile.writeObject(latestReport.get(i));
             }
             otFile.close();
-            JOptionPane.showMessageDialog(null, "Data saved Successfully");
-            this.dispose();
+            //JOptionPane.showMessageDialog(null, "Data saved Successfully");
+            //this.dispose();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -193,7 +195,6 @@ public void populateLatestReportArrayList() {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
@@ -214,8 +215,16 @@ public void populateLatestReportArrayList() {
         jTextField14 = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         jTextField15 = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
+        setPreferredSize(new java.awt.Dimension(1139, 768));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1139, 768));
 
         jLabel1.setText("Appointment Registration");
 
@@ -236,7 +245,15 @@ public void populateLatestReportArrayList() {
             new String [] {
                 "Patient ID", "Name", "DOB", "SSN", "Passport", "Community Name", "City", "Mobile Number", "Emergency Contact Name", "Emergency Contact Number", "Gender"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jLabel3.setText("Vital Signs: ");
@@ -325,6 +342,14 @@ public void populateLatestReportArrayList() {
 
         jLabel26.setText("Patients Root Concerns : ");
 
+        jLabel27.setText("cm");
+
+        jLabel28.setText("kg");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -347,19 +372,12 @@ public void populateLatestReportArrayList() {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1036, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 27, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel20)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(31, 31, 31))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -378,7 +396,6 @@ public void populateLatestReportArrayList() {
                                                             .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                             .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(jTextField2)
                                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -386,7 +403,11 @@ public void populateLatestReportArrayList() {
                                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jLabel23))))
+                                                                .addComponent(jLabel23))
+                                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(jTextField2)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel27))))
                                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGap(18, 18, 18)
@@ -398,7 +419,8 @@ public void populateLatestReportArrayList() {
                                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel11)
                                                     .addComponent(jLabel8)
-                                                    .addComponent(jLabel22)))
+                                                    .addComponent(jLabel22)
+                                                    .addComponent(jLabel20)))
                                             .addComponent(jLabel21))
                                         .addGap(28, 28, 28)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,7 +429,6 @@ public void populateLatestReportArrayList() {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -418,28 +439,38 @@ public void populateLatestReportArrayList() {
                                                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                                         .addComponent(jLabel24)
-                                                        .addGap(0, 0, Short.MAX_VALUE)))))))
-                                .addGap(77, 77, 77))
+                                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(250, 250, 250)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel28)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(66, 66, 66))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel26)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel25)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addGap(32, 32, 32)
                                 .addComponent(jButton3)
                                 .addGap(30, 30, 30)
                                 .addComponent(jButton4))
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,92 +489,92 @@ public void populateLatestReportArrayList() {
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jButton2)
                             .addComponent(jButton3)
-                            .addComponent(jButton4)
-                            .addComponent(jLabel20))
-                        .addGap(19, 19, 19)
+                            .addComponent(jButton4))
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel27)
+                                        .addComponent(jLabel6))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel28))))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel17))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(26, 26, 26)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(21, 21, 21)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel16)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel17))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(23, 23, 23)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel10)))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGap(29, 29, 29)
-                                                .addComponent(jLabel9)))
-                                        .addGap(30, 30, 30)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel19)))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel10)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jLabel9)))
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jLabel24))
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel25)
-                                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                                        .addComponent(jLabel26)
-                                        .addGap(30, 30, 30))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextField15)
-                                        .addContainerGap())))))))
+                                    .addComponent(jLabel12)
+                                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19)))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel24))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel25)
+                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel26)
+                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1099, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
         );
 
         pack();
@@ -552,14 +583,19 @@ public void populateLatestReportArrayList() {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 jTable2.setVisible(true);
 String patientName = this.jTextField1.getText().trim();
+modelPerson.setRowCount(0);
+if((this.jTextField1.getText().trim()).isEmpty()){
+    JOptionPane.showMessageDialog(null, "Enter Patient Name - Search Parameter");
+    return;
+}
 long displayPatientId = 0L;
 for(Person p : personArr){
 if(p.getName().equalsIgnoreCase(patientName) || p.getName().contains(patientName)){
 for(Patient p1 : patientArr){
 if(p1.getPersonId() == p.getPersonId()){
 displayPatientId = p1.getPatientId();
+modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{displayPatientId,p.getName(),p.getDob(),p.getSsn(),p.getPassportNo(),p.getCommunityName(),p.getCity(),p.getMobileNo(),p.getEmergencyContactName(),p.getEmergencyContactMobile(),p.getGender()});
 }}
-modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{displayPatientId,p.getName(),p.getDob(),p.getSsn(),p.getPassportNo(),p.getCommunityName(),p.getCity(),p.getMobileNo(),p.getEmailId(),p.getEmergencyContactName(),p.getEmergencyContactMobile(),p.getGender()});
 }}
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -568,9 +604,17 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{displayPatientId,p
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       String diastolic = this.jTextField3.getText().trim();
-       String systolic = this.jTextField11.getText().trim();
-String report = "";
+int selectedrow = jTable2.getSelectedRow();
+int selectedcolumn = 0;
+long patientId = (long) jTable2.getValueAt(selectedrow, selectedcolumn);
+
+String height = this.jTextField2.getText().trim();
+String weight = this.jTextField4.getText().trim();
+
+String diastolic = this.jTextField3.getText().trim();
+String systolic = this.jTextField11.getText().trim();
+String report = " Patient Height : "+height+"\r\n ";
+report = report+" Patient Weight : "+weight+"\r\n ";
 Boolean abnormalBP = Boolean.FALSE;
 Boolean abnormalSugar = Boolean.FALSE;
 Boolean abnormalThyroid = Boolean.FALSE;
@@ -582,128 +626,147 @@ Boolean abnormalPulseRate = Boolean.FALSE;
 Boolean abnormalBodyTemprature = Boolean.FALSE;
 Boolean abnormalRespirationRate = Boolean.FALSE;
 
+if(!systolic.equals("") || !diastolic.equals("")){
 if(((120 < Integer.parseInt(systolic)) && (Integer.parseInt(systolic)) < 129) || Integer.parseInt(diastolic) < 80){
 report = report+"Elevated blood pressure.\r\n ";  
 abnormalBP = Boolean.TRUE;
 }
 
 if(((130 < Integer.parseInt(systolic)) && (Integer.parseInt(systolic)) < 139) || ((80 < Integer.parseInt(diastolic)) && (Integer.parseInt(diastolic)) < 89)){
-report = report+"Stage 1 High Pressure - Hypertension. ";
+report = report+"Stage 1 High Pressure - Hypertension.\r\n ";
 abnormalBP = Boolean.TRUE;
 }
 
 if((Integer.parseInt(systolic)) > 140 || (90 < Integer.parseInt(diastolic))){
-report = report+"Stage 2 High Pressure - Hypertension. ";  
+report = report+"Stage 2 High Pressure - Hypertension.\r\n ";  
 abnormalBP = Boolean.TRUE;
+}
 }
 
 String sugar = this.jTextField5.getText().trim();
+if(!sugar.equals("")){
 if((Integer.parseInt(sugar)) > 199 ){
-report = report+"Diabetes. ";
+report = report+"Diabetes.\r\n ";
 abnormalSugar = Boolean.TRUE;
-}
+}}
 
 String thyroid = this.jTextField6.getText().trim();
+if(!thyroid.equals("")){
 if((Double.parseDouble(thyroid)) > 5.0 || (Double.parseDouble(thyroid) < 0.5) ){
-report = report+"Thyroid. ";
+report = report+"Thyroid.\r\n ";
 abnormalThyroid = Boolean.TRUE;
-}
+}}
 String bmi = this.jTextField7.getText().trim();
+if(!bmi.equals("")){
 if(Double.parseDouble(bmi) > 24.9){
-report = report+"BMI : Overweight. ";
+report = report+"BMI : Overweight.\r\n ";
 abnormalBMI = Boolean.TRUE;
 }
 if(Double.parseDouble(bmi) < 18.5){
-report = report+"BMI : Underweight. ";
+report = report+"BMI : Underweight.\r\n ";
 abnormalBMI = Boolean.TRUE;
-}
+}}
 
 String hemoglobin = this.jTextField8.getText().trim();
-String gender = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 10);
-if(gender.equalsIgnoreCase("F")){
+if(!hemoglobin.equals("")){
+int row = jTable2.getSelectedRow();
+int column = 10;
+char gender = (char) jTable2.getValueAt(row, column);
+if(gender == 'F'){
 if(Double.parseDouble(hemoglobin) > 15){
-report = report+"Hemoglobin : Exceed healthy range (11.6 - 15). ";
+report = report+"Hemoglobin : Exceed healthy range (11.6 - 15).\r\n ";
 abnormalHemoglobin = Boolean.TRUE;
 }
 if(Double.parseDouble(hemoglobin) < 11.6){
-report = report+"Hemoglobin : Less than healthy range (11.6 - 15). ";
+report = report+"Hemoglobin : Less than healthy range (11.6 - 15).\r\n ";
 abnormalHemoglobin = Boolean.TRUE;
 }
 }
-if(gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("O")){
+if(gender == 'M' || gender == 'O'){
 if(Double.parseDouble(hemoglobin) > 16.6){
-report = report+"Hemoglobin : Exceed healthy range (13.2 - 16.6). ";
+report = report+"Hemoglobin : Exceed healthy range (13.2 - 16.6).\r\n ";
 abnormalHemoglobin = Boolean.TRUE;
 }
 if(Double.parseDouble(hemoglobin) < 13.2){
-report = report+"Hemoglobin : Less than healthy range (13.2 - 16.6). ";
+report = report+"Hemoglobin : Less than healthy range (13.2 - 16.6).\r\n ";
 abnormalHemoglobin = Boolean.TRUE;
 }
-}
+}}
 
 String wbc = this.jTextField9.getText().trim();
+if(!wbc.equals("")){
 if(Double.parseDouble(wbc) > 11.0){
-report = report+"WBC count is more than expected (Normal WBC range : 4.5 to 11.0 X 10^9/L). ";
+report = report+"WBC count is more than expected (Normal WBC range : 4.5 to 11.0 X 10^9/L).\r\n ";
 abnormalWBC = Boolean.TRUE;
 }
 if(Double.parseDouble(wbc) < 4.5){
-report = report+"WBC count is less than expected (Normal WBC range : 4.5 to 11.0 X 10^9/L). ";
+report = report+"WBC count is less than expected (Normal WBC range : 4.5 to 11.0 X 10^9/L).\r\n ";
 abnormalWBC = Boolean.TRUE;
-}
+}}
 
 String rbc = this.jTextField10.getText().trim();
+if(!rbc.equals("")){
 if(Double.parseDouble(rbc) > 5.65){
-report = report+"RBC count is more than expected (Normal RBC range : 3.92 to 5.65 X 10^9/L). ";
+report = report+"RBC count is more than expected (Normal RBC range : 3.92 to 5.65 X 10^9/L).\r\n ";
 abnormalRBC = Boolean.TRUE;
 }
 if(Double.parseDouble(rbc) < 3.92){
-report = report+"RBC count is less than expected (Normal RBC range : 3.92 to 5.65 X 10^9/L). ";
+report = report+"RBC count is less than expected (Normal RBC range : 3.92 to 5.65 X 10^9/L).\r\n ";
 abnormalRBC = Boolean.TRUE;
-}
+}}
 
 String heartRate = this.jTextField12.getText().trim();
-if(Double.parseDouble(rbc) > 100.0){
-report = report+"Pulse rate : High. ";
+if(!heartRate.equals("")){
+if(Double.parseDouble(heartRate) > 100.0){
+report = report+"Pulse rate : High.\r\n ";
 abnormalPulseRate = Boolean.TRUE;
 }
 
-if(Double.parseDouble(rbc) < 60.0){
-report = report+"Pulse rate : Low. ";
+if(Double.parseDouble(heartRate) < 60.0){
+report = report+"Pulse rate : Low.\r\n ";
 abnormalPulseRate = Boolean.TRUE;
-}
+}}
 
 String temprature = this.jTextField13.getText().trim();
+if(!temprature.equals("")){
 if(Double.parseDouble(temprature) > 99.5){
-report = report+"Body Temprature : High. ";
+report = report+"Body Temprature : High.\r\n ";
 abnormalBodyTemprature = Boolean.TRUE;
-}
+}}
 
 String respirationCount = this.jTextField14.getText().trim();
+if(!respirationCount.equals("")){
 if(Double.parseDouble(respirationCount) > 16.0){
-report = report+"Respiration Rate : High. ";
+report = report+"Respiration Rate : High.\r\n ";
 abnormalRespirationRate = Boolean.TRUE;
 }
 if(Double.parseDouble(respirationCount) < 12.0){
-report = report+"Respiration Rate : Low. ";
+report = report+"Respiration Rate : Low.\r\n ";
 abnormalRespirationRate = Boolean.TRUE;
-}
+}}
 
 String patientRootComplaint = this.jTextField15.getText().trim();
-report = report + "\r\n" + patientRootComplaint + "\r\n";
+if(!patientRootComplaint.equals("")){
+report = report + "\r\n" + patientRootComplaint + "\r\n ";
+}
+if(report.equalsIgnoreCase("")){
+report = "Vital Sign report is Normal.\r\n ";
+}
+jTextArea2.setText(report);
 
-jLabel14.setText(report);
-
-String patientId = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
-PatientReport hr = new PatientReport(Long.parseLong(patientId), this.jDateChooser1.getDate(), report, abnormalBP, abnormalSugar, abnormalThyroid, abnormalBMI, abnormalHemoglobin, abnormalWBC, abnormalRBC, abnormalPulseRate, abnormalBodyTemprature, abnormalRespirationRate);
+//String patientId = (String) modelPerson.getValueAt(jTable2.getSelectedRow(), 0);
+PatientReport hr = new PatientReport(patientId, this.jDateChooser1.getDate(), report, abnormalBP, abnormalSugar, abnormalThyroid, abnormalBMI, abnormalHemoglobin, abnormalWBC, abnormalRBC, abnormalPulseRate, abnormalBodyTemprature, abnormalRespirationRate);
 historyReport.add(hr);
 savePatientHistoryReport();
 
+if(latestReport.size() != 0){
 for(PatientReport lr : latestReport){
-if(lr.getPatientId() == Long.parseLong(patientId)){
+if(lr.getPatientId() == patientId){
 latestReport.remove(lr);
 }
 }
-PatientReport lr = new PatientReport(Long.parseLong(patientId), this.jDateChooser1.getDate(), report, abnormalBP, abnormalSugar, abnormalThyroid, abnormalBMI, abnormalHemoglobin, abnormalWBC, abnormalRBC, abnormalPulseRate, abnormalBodyTemprature, abnormalRespirationRate);
+}
+PatientReport lr = new PatientReport(patientId, this.jDateChooser1.getDate(), report, abnormalBP, abnormalSugar, abnormalThyroid, abnormalBMI, abnormalHemoglobin, abnormalWBC, abnormalRBC, abnormalPulseRate, abnormalBodyTemprature, abnormalRespirationRate);
 latestReport.add(lr);
 savePatientLatestReport();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -713,10 +776,12 @@ savePatientLatestReport();
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-String patientId = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+int selectedrow = jTable2.getSelectedRow();
+int selectedcolumn = 0;
+long patientId = (long) jTable2.getValueAt(selectedrow, selectedcolumn);
 String report = "";
 for(PatientReport hr : historyReport){
-if(hr.getPatientId() == Long.parseLong(patientId)){
+if(hr.getPatientId() == patientId){
 report = report+"\r\n"+hr.getReportDate()+": \r\n"+hr.getGeneratedReport()+"\r\n";
 }
 }
@@ -779,7 +844,6 @@ JOptionPane.showMessageDialog(this, "Assign Appointment Number to "+jTable2.getV
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -793,6 +857,8 @@ JOptionPane.showMessageDialog(this, "Assign Appointment Number to "+jTable2.getV
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -802,7 +868,9 @@ JOptionPane.showMessageDialog(this, "Assign Appointment Number to "+jTable2.getV
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;

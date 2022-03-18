@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import src.Community;
@@ -153,8 +154,11 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
         button1 = new java.awt.Button();
         button2 = new java.awt.Button();
         button3 = new java.awt.Button();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
+        setPreferredSize(new java.awt.Dimension(1139, 768));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -189,6 +193,11 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
         });
 
         jButton3.setText("Delete Community");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Community Name : ");
 
@@ -212,9 +221,17 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
 
             },
             new String [] {
-                "ID", "Name", "DOB", "SSN", "Passport", "Community Name", "City", "Mobile Number", "Emergency Contact Name", "Emergency Contact Number", "Gender", "Is patient?"
+                "ID", "Name", "DOB", "SSN", "Passport", "Community Name", "City", "Mobile Number", "Email", "Emergency Contact Name", "Emergency Contact Number", "Gender", "Is patient?"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true, true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         button1.setLabel("Add");
@@ -225,8 +242,25 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
         });
 
         button2.setLabel("Edit");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
 
         button3.setLabel("Delete");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Refresh");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -259,7 +293,9 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
                         .addGap(86, 86, 86)
                         .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(108, 108, 108)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(jButton5)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -291,11 +327,12 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(89, 89, 89)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
 
@@ -325,7 +362,7 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{p.getPersonId(),p.
         jButton4.setVisible(true);
         communityAddEnable = Boolean.TRUE;
         communityEditEnable = Boolean.FALSE;
-        IndexOfCommunityToUpdat = -1;
+        //IndexOfCommunityToUpdat = -1;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -337,16 +374,31 @@ displayPersonData();
         String communityName = this.jTextField1.getText().trim();
         String cityName = this.jTextField2.getText().trim();
 
-if(communityEditEnable == Boolean.TRUE){
-if(IndexOfCommunityToUpdat != -1)
-communityArr.remove(IndexOfCommunityToUpdat);
+if(communityName.equalsIgnoreCase("") || cityName.equalsIgnoreCase("")){
+JOptionPane.showMessageDialog(this, "Enter all Details");return;
 }
+
+
+if(communityEditEnable == Boolean.TRUE){
+IndexOfCommunityToUpdat = jTable1.getSelectedRow();
+Community comToUpdate = communityArr.get(IndexOfCommunityToUpdat);
+comToUpdate.setCommunity(this.jTextField1.getText().trim());
+comToUpdate.setCity(this.jTextField2.getText().trim());
+saveCommunityFile();
+}else {
         Community c = new Community(communityName, cityName);
         communityArr.add(c);
         saveCommunityFile();
+}
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+int row = jTable1.getSelectedRow();
+String communityName = (String) jTable1.getValueAt(row, 0);
+for(Person p: personArr){
+if(p.getCommunityName().equalsIgnoreCase(communityName)){
+JOptionPane.showMessageDialog(this, "Can not modify details as Community is exisitng address of person");return;
+}}
         jLabel1.setVisible(true);
         jTextField1.setVisible(true);
         jLabel2.setVisible(true);
@@ -354,9 +406,101 @@ communityArr.remove(IndexOfCommunityToUpdat);
         jButton4.setVisible(true);
         communityAddEnable = Boolean.FALSE;
         communityEditEnable = Boolean.TRUE;
-        IndexOfCommunityToUpdat = jTable1.getSelectedRow();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       displayPersonData();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+int row = jTable1.getSelectedRow();
+String communityName = (String) jTable1.getValueAt(row, 0);
+        for(Person p: personArr){
+if(p.getCommunityName().equalsIgnoreCase(communityName)){
+JOptionPane.showMessageDialog(this, "Can not Delete details as Community is exisitng address of person");return;
+}}
+
+for(int i=0;i<communityArr.size();i++){
+if(communityArr.get(i).getCommunity().equalsIgnoreCase(communityName)){
+communityArr.remove(i);
+saveCommunityFile();
+}
+}
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        int row = jTable2.getSelectedRow();
+if(jTable2.getValueAt(row, 1).equals("") || jTable2.getValueAt(row, 2).equals("") || jTable2.getValueAt(row, 3).equals("") || jTable2.getValueAt(row, 4).equals("") || jTable2.getValueAt(row, 5).equals("") || jTable2.getValueAt(row, 6).equals("") || jTable2.getValueAt(row, 7).equals("") || jTable2.getValueAt(row, 8).equals("") || jTable2.getValueAt(row, 9).equals("") || jTable2.getValueAt(row, 10).equals("") || jTable2.getValueAt(row, 11).equals("")){
+JOptionPane.showMessageDialog(this, "Enter valid value for all parameters. Data should not be a blank value.");return;
+}
+        long personId = (long) jTable2.getValueAt(row, 0);
+        String name = (String) jTable2.getValueAt(row, 1);
+        Date dob = (Date) jTable2.getValueAt(row, 2);
+        String ssn = (String) jTable2.getValueAt(row, 3);
+        String passport = (String) jTable2.getValueAt(row, 4);
+        String community = (String) jTable2.getValueAt(row, 5);
+        String city = (String) jTable2.getValueAt(row, 6);
+        long mobile = (long) jTable2.getValueAt(row, 7);
+        String email = (String) jTable2.getValueAt(row, 8);
+        String emergencyName = (String) jTable2.getValueAt(row, 9);
+        long emergencyMobile = (long) jTable2.getValueAt(row, 10);
+        char gender = (char) jTable2.getValueAt(row, 11);
+        char isPatient = (char) jTable2.getValueAt(row, 12);
+
+//if(personId == 0L || name.equals("") || dob.equals("") || ssn.equals("") || passport.equals("") || community.equals("") || city.equals("") || mobile == 0L || email.equals("") || emergencyName.equals("") || emergencyMobile == 0L || gender == ''){
+//if(personId == 0L || name.equals("") || dob.equals("") || ssn.equals("") || passport.equals("") || community.equals("") || city.equals("") || mobile == 0L || email.equals("") || emergencyName.equals("") || emergencyMobile == 0L || gender == ' '){
+//JOptionPane.showMessageDialog(this, "Enter valid value for all parameters. Data should not be a blank value.");return;
+//}
+
+        for (Person p : personArr) {
+            if (p.getPersonId() == personId) {
+                p.setName(name);
+                p.setDob(dob);
+                p.setSsn(ssn);
+                p.setPassportNo(passport);
+                p.setCommunityName(community);
+                p.setCity(city);
+                p.setMobileNo(mobile);
+                p.setEmailId(email);
+                p.setEmergencyContactName(emergencyName);
+                p.setEmergencyContactMobile(emergencyMobile);
+                p.setGender(gender);
+                p.setIsPatient(isPatient);
+            }
+        }
+        savePersonFile();
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        int row = jTable2.getSelectedRow();
+        long personId = (long) jTable2.getValueAt(row, 0);
+char isPatient = (char) jTable2.getValueAt(row, 12);
+if(isPatient == 'Y'){
+JOptionPane.showMessageDialog(this, "Can not delete this record as this is already a patient.");return;
+}
+for(int i=0;i<personArr.size();i++){
+if(personArr.get(i).getPersonId() == personId){
+personArr.remove(i);
+}
+}
+savePersonFile();
+
+    }//GEN-LAST:event_button3ActionPerformed
+
+public void savePersonFile() {
+        try {
+            FileOutputStream file = new FileOutputStream("Person.dat");
+            ObjectOutputStream otFile = new ObjectOutputStream(file);
+            for (int i = 0; i < personArr.size(); i++) {
+                otFile.writeObject(personArr.get(i));
+            }
+            otFile.close();
+            JOptionPane.showMessageDialog(null, "Data saved Successfully");
+            this.dispose();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -400,6 +544,7 @@ communityArr.remove(IndexOfCommunityToUpdat);
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -15,6 +15,7 @@ public class LandingPage extends javax.swing.JFrame {
      */
     public LandingPage() {
         initComponents();
+
     }
 
     /**
@@ -40,6 +41,7 @@ public class LandingPage extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
 

@@ -27,7 +27,7 @@ transient ArrayList<PatientReport> latestReport;
 transient ArrayList<Person> personArr;
     DefaultTableModel modelPatientOverview;
 transient ArrayList<Patient> patientArr;
-ArrayList<String> patientDetails = new ArrayList<String>();
+//ArrayList<String> patientDetails = new ArrayList<String>();
 HashMap<String,ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 
  String abnormalBPPatientKey = "";
@@ -49,13 +49,15 @@ latestReport = new ArrayList<PatientReport>();
 personArr =  new ArrayList<Person>();
 patientArr = new ArrayList<>();
 modelPatientOverview = (DefaultTableModel) jTable1.getModel();
+populatePersonArrayList();
+populatePatientArrayList();
 populateLatestReportArrayList();
 displayPatientCount();
 displayPatientDetails();
     }
 
 public void displayPatientDetails(){
-
+modelPatientOverview.setRowCount(0);
 for(PatientReport lr : latestReport){
 Long tempPersonId = 0L;
 for(Patient p1 : patientArr){
@@ -63,14 +65,17 @@ if(p1.getPatientId() == lr.getPatientId()){
 tempPersonId = p1.getPersonId();
 }}
 for(Person p : personArr){
-if(tempPersonId != 0L && p.getPersonId() == tempPersonId)
+if(tempPersonId != 0L && p.getPersonId() == tempPersonId){
 modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{lr.getPatientId(),p.getName(),p.getCommunityName(),p.getCity()});
+ArrayList<String> patientDetails = new ArrayList<String>();
 patientDetails.add(lr.getPatientId()+"");
 patientDetails.add(p.getName());
 patientDetails.add(p.getCommunityName());
 patientDetails.add(p.getCity());
-}
 map.put(lr.getPatientId()+"", patientDetails);
+}
+}
+
 }
 }
 
@@ -191,7 +196,7 @@ if(lr.getAbnormalRespirationRate().equals(Boolean.TRUE)){
 abnormalRespirationRate++;
 abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.getPatientId();
 }
-
+}
  this.jTextField1.setText(abnormalBP.toString());
  this.jTextField2.setText(abnormalSugar.toString());
  this.jTextField3.setText(abnormalThyroid.toString());
@@ -203,7 +208,6 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
  this.jTextField9.setText(abnormalBodyTemprature.toString());
  this.jTextField10.setText(abnormalRespirationRate.toString());
  this.jTextField11.setText(latestReport.size()+"");
-}
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -253,8 +257,12 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1900, 1020));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1139, 768));
 
         jLabel1.setText("BP : ");
 
@@ -268,6 +276,11 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
         jLabel2.setText("Sugar : ");
 
         jButton2.setText("Display Details");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Thyroid : ");
 
@@ -292,22 +305,67 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
         jLabel13.setText("Patient Count");
 
         jButton3.setText("Display Details");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Display Details");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Display Details");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Display Details");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Display Details");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Display Details");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Display Details");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setText("Display Details");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("Display Details");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -328,6 +386,8 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
         jScrollPane1.setViewportView(jTable1);
 
         jLabel14.setText("(including other issues)");
+
+        jLabel15.setText("Patients :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -393,8 +453,10 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
                         .addGap(28, 28, 28))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,12 +470,13 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel15))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(208, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -495,12 +558,117 @@ abnormalRespirationRatePatientKey = abnormalRespirationRatePatientKey+","+lr.get
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         modelPatientOverview.setRowCount(0);
+jLabel15.setText("BP Patients: ");
         String[] bpKeyArr = abnormalBPPatientKey.split(",");
 for(String key : bpKeyArr){
+if(!key.equals("")){
 ArrayList data = map.get(key);
 modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
-}
+}}
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                modelPatientOverview.setRowCount(0);
+jLabel15.setText("Diabetic Patients: ");
+        String[] bpKeyArr = abnormalSugarPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+                       modelPatientOverview.setRowCount(0);
+jLabel15.setText("Thyroid Patients: ");
+        String[] bpKeyArr = abnormalThyroidPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal BMI Patients: ");
+        String[] bpKeyArr = abnormalBMIPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal Hemoglobin Patients: ");
+        String[] bpKeyArr = abnormalHemoglobinPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+                                modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal WBC Patients: ");
+        String[] bpKeyArr = abnormalWBCPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal RBC Patients: ");
+        String[] bpKeyArr = abnormalRBCPatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal Pulse Rate Patients: ");
+        String[] bpKeyArr = abnormalPulseRatePatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal Body Temprature Patients: ");
+        String[] bpKeyArr = abnormalBodyTempraturePatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+                        modelPatientOverview.setRowCount(0);
+jLabel15.setText("Abnormal Respiration Rate Patients: ");
+        String[] bpKeyArr = abnormalRespirationRatePatientKey.split(",");
+for(String key : bpKeyArr){
+if(!key.equals("")){
+ArrayList data = map.get(key);
+modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{data.get(0),data.get(1),data.get(2),data.get(3)});
+}}
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        displayPatientDetails();
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,6 +723,7 @@ modelPatientOverview.insertRow(modelPatientOverview.getRowCount(), new Object[]{
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
