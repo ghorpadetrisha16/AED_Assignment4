@@ -635,6 +635,7 @@ modelPerson.insertRow(modelPerson.getRowCount(), new Object[]{displayPatientId,p
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+try{
 int selectedrow = jTable2.getSelectedRow();
 int selectedcolumn = 0;
 long patientId = (long) jTable2.getValueAt(selectedrow, selectedcolumn);
@@ -658,6 +659,7 @@ Boolean abnormalBodyTemprature = Boolean.FALSE;
 Boolean abnormalRespirationRate = Boolean.FALSE;
 
 if(!systolic.equals("") || !diastolic.equals("")){
+try{
 if(((120 < Integer.parseInt(systolic)) && (Integer.parseInt(systolic)) < 129) || Integer.parseInt(diastolic) < 80){
 report = report+"Elevated blood pressure.\r\n ";  
 abnormalBP = Boolean.TRUE;
@@ -671,23 +673,32 @@ abnormalBP = Boolean.TRUE;
 if((Integer.parseInt(systolic)) > 140 || (90 < Integer.parseInt(diastolic))){
 report = report+"Stage 2 High Pressure - Hypertension.\r\n ";  
 abnormalBP = Boolean.TRUE;
+}}catch (NumberFormatException n){
+JOptionPane.showMessageDialog(null, "Enter value of vital sign in Number format only");return;
 }
 }
 
 String sugar = this.jTextField5.getText().trim();
 if(!sugar.equals("")){
+try{
 if((Integer.parseInt(sugar)) > 199 ){
 report = report+"Diabetes.\r\n ";
 abnormalSugar = Boolean.TRUE;
+}}catch (NumberFormatException n){
+JOptionPane.showMessageDialog(null, "Enter value of vital sign in Number format only");return;
 }}
 
 String thyroid = this.jTextField6.getText().trim();
+try{
 if(!thyroid.equals("")){
 if((Double.parseDouble(thyroid)) > 5.0 || (Double.parseDouble(thyroid) < 0.5) ){
 report = report+"Thyroid.\r\n ";
 abnormalThyroid = Boolean.TRUE;
-}}
+}}}catch (NumberFormatException n){
+JOptionPane.showMessageDialog(null, "Enter value of vital sign in Number format only");return;
+}
 String bmi = this.jTextField7.getText().trim();
+try{
 if(!bmi.equals("")){
 if(Double.parseDouble(bmi) > 24.9){
 report = report+"BMI : Overweight.\r\n ";
@@ -696,7 +707,9 @@ abnormalBMI = Boolean.TRUE;
 if(Double.parseDouble(bmi) < 18.5){
 report = report+"BMI : Underweight.\r\n ";
 abnormalBMI = Boolean.TRUE;
-}}
+}}}catch (NumberFormatException n){
+JOptionPane.showMessageDialog(null, "Enter value of vital sign in Number format only");return;
+}
 
 String hemoglobin = this.jTextField8.getText().trim();
 if(!hemoglobin.equals("")){
@@ -800,6 +813,9 @@ latestReport.remove(lr);
 PatientReport lr = new PatientReport(patientId, this.jDateChooser1.getDate(), report, abnormalBP, abnormalSugar, abnormalThyroid, abnormalBMI, abnormalHemoglobin, abnormalWBC, abnormalRBC, abnormalPulseRate, abnormalBodyTemprature, abnormalRespirationRate);
 latestReport.add(lr);
 savePatientLatestReport();
+}catch (NumberFormatException n){
+JOptionPane.showMessageDialog(null, "Enter value of vital sign in Number format only");return;
+}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

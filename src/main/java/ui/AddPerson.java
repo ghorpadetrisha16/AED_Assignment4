@@ -435,7 +435,7 @@ public class AddPerson extends javax.swing.JFrame {
         }
 
         if (fileName.equals("")) {
-            fileName = "Trisha_photo.jpg";
+            fileName = "dummyPic.jpg";
         }
 
         Person p = new Person(personArr.size() + 1, name, dob, ssn, passport, community, city, mobileNo, email, emergencyName, emergencyNo, genderChar, 'N', fileName);

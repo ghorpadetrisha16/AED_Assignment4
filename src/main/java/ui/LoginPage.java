@@ -43,8 +43,8 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(42, 183, 210));
         jPanel1.setAlignmentX(0);
         jPanel1.setAlignmentY(0);
-        jPanel1.setMinimumSize(new java.awt.Dimension(2000, 2000));
-        jPanel1.setPreferredSize(new java.awt.Dimension(2000, 2000));
+        jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1581, 838));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -79,7 +79,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel3.setMaximumSize(new java.awt.Dimension(700, 700));
         jLabel3.setMinimumSize(new java.awt.Dimension(700, 700));
         jLabel3.setPreferredSize(new java.awt.Dimension(700, 700));
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 1510, 870));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 1530, 860));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
