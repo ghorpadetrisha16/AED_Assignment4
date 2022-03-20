@@ -28,8 +28,9 @@ private String emergencyContactName;
 private long emergencyContactMobile;
 private char gender;
 private char isPatient;
+private String photo;
 
-    public Person(long personId, String Name, Date dob, String ssn, String passportNo, String communityName, String city, long mobileNo, String emailId, String emergencyContactName, long emergencyContactMobile, char gender, char isPatient) {
+    public Person(long personId, String Name, Date dob, String ssn, String passportNo, String communityName, String city, long mobileNo, String emailId, String emergencyContactName, long emergencyContactMobile, char gender, char isPatient, String photo) {
         this.personId = personId;
         this.Name = Name;
         this.dob = dob;
@@ -43,6 +44,7 @@ private char isPatient;
         this.emergencyContactMobile = emergencyContactMobile;
         this.gender = gender;
         this.isPatient = isPatient;
+        this.photo = photo;
     }
 
     public long getPersonId() {
@@ -147,6 +149,14 @@ private char isPatient;
 
     public void setIsPatient(char isPatient) {
         this.isPatient = isPatient;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
 }
